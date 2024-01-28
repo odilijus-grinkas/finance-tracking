@@ -4,7 +4,7 @@ const itemRoutes = require("./routes/ItemsApiRouter");
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 // Passing database connection, so that there's only 1 open pool on the whole server
 app.use((req, res, next) => {
