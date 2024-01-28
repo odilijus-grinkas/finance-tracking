@@ -1,23 +1,20 @@
-const express = require('express');
-const mysql = require('mysql2/promise');
+const express = require("express");
+const db = require("./db/mysql");
+const itemRoutes = require("./routes/ItemsApiRouter");
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-// Database connection
-const con = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "finance",
-})
+// Passing database connection, so that there's only 1 open pool on the whole server
+app.use((req, res, next) => {
+  req.db = db;
+  next();
+});
 
-// Placeholder
-app.get('/', (req,res)=>{
-  res.sendStatus(200);
-})
+// Routes
+app.use(itemRoutes);
 
-app.listen(port, ()=>{
+app.listen(port, () => {
   console.log(`Server listening on: http://localhost:${port}`);
 });
