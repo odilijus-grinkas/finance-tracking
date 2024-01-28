@@ -9,8 +9,8 @@
   "main": "app.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js"
   },
   "author": "odilijus",
   "license": "ISC"
