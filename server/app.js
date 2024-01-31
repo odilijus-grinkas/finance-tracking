@@ -1,10 +1,10 @@
 const express = require("express");
-const db = require("./db/mysql");
+const db = require("./config/mysql");
 const itemRoutes = require("./routes/ItemsApiRouter");
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 
 // Passing database connection, so that there's only 1 open pool on the whole server
 app.use((req, res, next) => {
