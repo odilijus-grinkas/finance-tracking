@@ -4,20 +4,26 @@ services:
     volumes:
       - ./server:/server
     working_dir: /server
-    command: sh -c "npm i && npm run nodemon"
+    command: sh -c "npm i && npm run dev"
     ports:
       - 3001:3001
   client:
     image: node:alpine
     volumes:
+      # - type: bind 
+      #   source: ./client
+      #   target: /client
       - ./client:/client
     working_dir: /client
-    command: sh -c "npm i && npm start"
+    command: sh -c "npm i && npm run dev"
     ports:
-      - 0.0.0.0:3000:3000
+      - 3000:3000
   db:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./db_scripts:/docker-entrypoint-initdb.d
+      - ./db_scripts:/docker-entrypoint-initdb.d  #database setup scripts
+      - persistentDatabase:/var/lib/mysql
+volumes:
+  persistentDatabase:

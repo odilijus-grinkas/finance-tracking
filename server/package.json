@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "concurrently": "^8.2.2",
     "express": "^4.18.2",
     "mysql2": "^3.9.0",
     "nodemon": "^3.0.3"
@@ -10,9 +9,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "nodemon": "nodemon app.js",
-    "dev": "concurrently \"npm run nodemon\" \"cd client && npm start\""
+    "build": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "odilijus",
   "license": "ISC"
