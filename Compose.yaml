@@ -10,9 +10,6 @@ services:
   client:
     image: node:alpine
     volumes:
-      # - type: bind 
-      #   source: ./client
-      #   target: /client
       - ./client:/client
     working_dir: /client
     command: sh -c "npm i && npm run dev"
