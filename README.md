@@ -8,9 +8,8 @@
 - Build client & serverv via `npm run build`
 - Production client & server via `npm run dev`
 
-update: 
-
 todo:
 - compose, check if everything connects to one another
-- find out how to run react on router.
+- Login buttons - how to center on Y-axis, how to put space between them?
 - Find out how to make a bind mount that updates in real time without restart.
+- Find out how to make page not refresh with Link

@@ -1,14 +1,21 @@
-export default function Test(){
+import Header from '../sharedComponents/Header'
+import { Outlet, Link } from "react-router-dom";
+
+export default function Index(){
   return(
     <>
-      <nav>
-        <ul>
-          <li>
-            <a href={`/test2`}>test2</a>
-          </li>
-        </ul>
-      </nav>
-    <div id="detail"></div>
+      <Header/>
+      <div>Balance</div>
+      <div>
+        <Link to="/group">Groups</Link>
+      </div>
+      <div>
+        <Link to="/cash/income">Income</Link>
+        <Link to="/cash/expense">Expense</Link>
+      </div>
+      <div>
+        <Outlet/>
+      </div>
   </>
-  )
+  );
 }
