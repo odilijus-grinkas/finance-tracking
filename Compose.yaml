@@ -1,4 +1,13 @@
 services:
+  # nginx:
+  #   image: nginx:alpine
+  #   depends_on:
+  #     - server
+  #     - client
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
   server:
     image: node:alpine
     depends_on:

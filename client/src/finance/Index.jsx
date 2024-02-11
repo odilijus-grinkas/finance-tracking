@@ -7,11 +7,12 @@ export default function Index(){
       <Header/>
       <div>Balance</div>
       <div>
-        <Link to="/group">Groups</Link>
+        <Link to="/group" className="btn btn-outline-secondary">Groups</Link>
       </div>
       <div>
-        <Link to="/cash/income">Income</Link>
-        <Link to="/cash/expense">Expense</Link>
+        {/* CashFlow components are loaded here */}
+        <Link to="/cash/income" className="btn btn-outline-success">Income</Link>
+        <Link to="/cash/expense" className="btn btn-outline-danger">Expense</Link>
       </div>
       <div>
         <Outlet/>
