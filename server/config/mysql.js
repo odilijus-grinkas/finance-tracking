@@ -13,14 +13,14 @@ const db = mysql.createPool({
   connectionLimit: 50,
   waitForConnections: true,
 
-  // host: "db",
-  // user: "root",
-  // password: "root",
-  // database: "finance",
-  host: HOST,
-  user: USER,
-  password: PASSWORD,
-  database: DB,
+  host: "localhost",
+  user: "root",
+  password: "root",
+  database: "finance",
+  // host: HOST,
+  // user: USER,
+  // password: PASSWORD,
+  // database: DB,
 });
 
 module.exports = db;

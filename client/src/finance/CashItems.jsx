@@ -11,7 +11,6 @@ export default function CashItems({flowData, itemGroup}){
     return items
   }
   const items = itemsOfOneGroup(flowData, itemGroup);
-  console.log(items);
   return(
     <>
       {items.map((item)=>{

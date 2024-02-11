@@ -1,12 +1,11 @@
 const express = require("express");
+const UsersApiController = require("../controller/UsersApiController");
 
 const router = express.Router();
 
-router.get("/login", (req, res) => {
-  // model
-});
+router.post("/login", UsersApiController.login);
 
-router.post("/register", (req, res) => {
+router.post("/signup", (req, res) => {
   // model
 });
 

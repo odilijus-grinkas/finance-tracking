@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import CashGroup from "./CashGroups";
 
@@ -7,12 +7,23 @@ export default function Cashflow() {
   // Take flow parameter from URL that contains income or expense
   const { flow } = useParams("flow");
   const [flowData, setFlowData] = useState();
+  const navigate = useNavigate();
 
   // expects "income" or "expense"
-  const fetchData = async (cashflow) => {
-    const response = await fetch("http://localhost:3001/" + cashflow);
-    const parsed = await response.json();
-    return parsed;
+  const fetchData = async function (cashflow) {
+    try {
+      const userId = sessionStorage.getItem("user");
+      const response = await fetch(`http://localhost:3001/${cashflow}/${userId}`);
+      const parsed = await response.json();
+      // triggered if cashflow part in URL is unrelated.
+      if (!response.ok) {
+        navigate("/404");
+      } else {
+        return parsed;
+      }
+    } catch (err) {
+      console.log("Could not fetch, has the server started?");
+    }
   };
 
   useEffect(() => {
@@ -31,7 +42,7 @@ export default function Cashflow() {
   return Boolean(flowData) ? (
     <div>
       <div>Date i.e 2024-02</div>
-      <CashGroup flowData={flowData}/>
+      <CashGroup flowData={flowData} />
     </div>
   ) : (
     <div className="text-center">

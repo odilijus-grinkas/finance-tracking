@@ -3,15 +3,7 @@ const CashflowApiController = require("../controller/ItemsApiController");
 
 const router = express.Router();
 
-router.get("/items", (req, res) => {
-  CashflowApiController.getAllItems(req, res);
-});
-router.get("/income", (req, res) => {
-  CashflowApiController.getAllIncome(req, res);
-});
-router.get("/expense", (req, res) => {
-  CashflowApiController.getAllExpense(req, res);
-});
+router.get("/:cashflow/:id", CashflowApiController.getAllItems);
 
 router.post("/item", (req, res) => {
   // controller

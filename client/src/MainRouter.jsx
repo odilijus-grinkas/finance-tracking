@@ -5,8 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import Index from "./finance/Index";
-import Login from "./user/Login";
-import Signup from "./user/Signup";
+import Auth from "./user/Auth";
 import NoPage from "./sharedComponents/NoPage";
 import Cashflow from "./finance/Cashflow";
 import Group from "./finance/Group";
@@ -17,8 +16,8 @@ const router = createBrowserRouter(
         <Route path="/cash/:flow" element={<Cashflow/>}/>
         <Route path="/group" element={<Group/>}/>
       </Route>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/auth/login" element={<Auth/>}/>
+      <Route path="/auth/signup" element={<Auth/>}/>
       <Route path="/*" element={<NoPage/>}/>
     </>
   )

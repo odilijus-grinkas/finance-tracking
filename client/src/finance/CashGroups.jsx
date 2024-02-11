@@ -1,5 +1,6 @@
 import CashItems from "./CashItems";
 import {Link} from "react-router-dom";
+// This component creates and returns groups with items belonging to each group.
 // eslint-disable-next-line react/prop-types
 export default function CashGroup({flowData}){
 
@@ -16,17 +17,19 @@ export default function CashGroup({flowData}){
     }
     return groups;
   }
+  
   const groups = itemGroups(flowData);
+
   return(
     <>
       <table className="table table-striped table-dark">
         <tbody>
           {groups.map((e)=>{
-              // console.log(e);
               return (
               <tr key={e[0]}>
                 <td>
-                  <ul>{e[1]}
+                <h4>{e[1]}</h4>
+                  <ul>
                     <CashItems flowData={flowData} itemGroup={e[1]}/>
                   </ul>
                 </td>

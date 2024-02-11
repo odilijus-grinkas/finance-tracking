@@ -9,7 +9,8 @@
 - Production client & server via `npm run dev`
 
 todo:
-- compose, check if everything connects to one another
+- Register option
+- Add items to group option
+- Add new group option
+- Balance display
 - Login buttons - how to center on Y-axis, how to put space between them?
-- Find out how to make a bind mount that updates in real time without restart.
-- Find out how to make page not refresh with Link
