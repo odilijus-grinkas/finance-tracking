@@ -8,13 +8,11 @@ import Index from "./finance/Index";
 import Auth from "./user/Auth";
 import NoPage from "./sharedComponents/NoPage";
 import Cashflow from "./finance/Cashflow";
-import Group from "./finance/Group";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Index/>}>
         <Route path="/cash/:flow" element={<Cashflow/>}/>
-        <Route path="/group" element={<Group/>}/>
       </Route>
       <Route path="/auth/login" element={<Auth/>}/>
       <Route path="/auth/signup" element={<Auth/>}/>

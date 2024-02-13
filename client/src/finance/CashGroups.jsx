@@ -1,8 +1,9 @@
 import CashItems from "./CashItems";
-import {Link} from "react-router-dom";
+import NewItem from "./NewItem";
+
 // This component creates and returns groups with items belonging to each group.
 // eslint-disable-next-line react/prop-types
-export default function CashGroup({flowData}){
+export default function CashGroups({flowData, refetchData}){
 
   // Takes flowData and returns all unique groups
   function itemGroups(array) {
@@ -25,15 +26,18 @@ export default function CashGroup({flowData}){
       <table className="table table-striped table-dark">
         <tbody>
           {groups.map((e)=>{
+              let groupId = e[0];
+              let groupName = e[1];
               return (
-              <tr key={e[0]}>
+              <tr key={groupId}>
                 <td>
-                <h4>{e[1]}</h4>
+                <h4>{groupName}</h4>
                   <ul>
-                    <CashItems flowData={flowData} itemGroup={e[1]}/>
+                    <CashItems flowData={flowData} itemGroup={groupName}/>
                   </ul>
                 </td>
-                <td><Link to="#">Add New Item</Link></td>
+                <td><NewItem groupName={groupName} refetchData={refetchData}/></td>
+                <td>Delete Group</td>
               </tr>
             )
           })}

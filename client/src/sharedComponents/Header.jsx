@@ -1,4 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
+import "../styles/header.css"
 
 // eslint-disable-next-line react/prop-types
 export default function Header({ path }) {
@@ -8,13 +9,15 @@ export default function Header({ path }) {
     navigate("/auth/login");
   }
   return (
-    <header className="d-flex justify-content-between">
-      <div className="mx-5">
+    <header className={ path ?  "d-flex justify-content-center" : "d-flex justify-content-between"}>
+    {/*<header className="">*/}
+      <div className="d-flex justify-content-around">
         <Link to="/">
           <img src="/logo.png" alt="logo" style={{ height: "5em" }} />
         </Link>
+        <div className="logo-text">Finance Tracking App ✨</div>
       </div>
-      <nav className="mx-5 d-flex align-items-center">
+      <nav className="d-flex align-items-center">
         {/* Check if logged in - display Log Out, else display Log In & Sign Up. If in Login page, remove buttons. */}
         {sessionStorage.getItem("user") ? (
           <button className="btn btn-warning" onClick={handleClick}>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import Header from "../sharedComponents/Header";
+import "../styles/backgrounds.css";
+import "../styles/form.css";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -19,9 +21,9 @@ export default function Login() {
 
   // determine which button should look like the selected one
   function buttonBorder(authType) {
-    const decorations = "text-decoration-none px-1 py-1";
+    const decorations = "text-decoration-none text-light px-1 py-1";
     if (authType == path) {
-      return decorations + " border border-primary rounded";
+      return decorations + " border-auth";
     } else {
       return decorations;
     }
@@ -48,13 +50,40 @@ export default function Login() {
     return newIssue;
   }
 
-  // update form & remove issues/successful login check
+  // update form & remove issues/successful signup check
   function handleChange(event) {
     const name = event.target.name;
     const val = event.target.value;
     setFormData((values) => ({ ...values, [name]: val }));
     setSuccessfulSignup(false);
     setIssues(false);
+  }
+  // send login or register information based on path
+  async function fetchData() {
+    try {
+      const response = await fetch("http://localhost:3001/" + path, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const parsedResponse = await response.json();
+      if (!response.ok) {
+        setIssues(parsedResponse.error);
+      } else if (response.ok) {
+        if (path == "login") {
+          sessionStorage.setItem("user", parsedResponse.id);
+          navigate("/");
+        } else if (path == "signup") {
+          setSuccessfulSignup(true); // only if server responds with success
+          setFormData({ email: "", password: "" });
+        }
+      }
+    } catch (err) {
+      setIssues("Server issue.")
+      console.log(err);
+    }
   }
 
   // What happens when submit button is pressed
@@ -63,36 +92,37 @@ export default function Login() {
 
     const newIssue = formValidation();
     setIssues(newIssue);
-
-    if (!newIssue && path == "signup") {
-      // send data to server
-      setSuccessfulSignup(true); // only if server responds with success
-      setFormData({ email: "", password: "" });
-    } else if (!newIssue && path == "login") {
-      // send login request to server
-      try {
-        const response = await fetch("http://localhost:3001/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-        const parsedResponse = await response.json();
-        if (!response.ok) {
-          console.log("Bad credentials");
-          setIssues(parsedResponse.error);
-        } else if (response.ok) {
-          // sessionStorage.setItem("user", JSON.stringify(response.id));
-          sessionStorage.setItem("user",parsedResponse.id)
-          navigate("/");
-        }
-
-        // Handle successful response
-      } catch (error) {
-        console.error("Error sending form data: ", error.message);
-      }
+    if (!newIssue) {
+      fetchData()
     }
+    // if (!newIssue && path == "signup") {
+    //   setSuccessfulSignup(true); // only if server responds with success
+    //   setFormData({ email: "", password: "" });
+    // } else if (!newIssue && path == "login") {
+    //   // send login request to server
+    //   try {
+    //     const response = await fetch("http://localhost:3001/login", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(formData),
+    //     });
+    //     const parsedResponse = await response.json();
+    //     if (!response.ok) {
+    //       console.log("Bad credentials");
+    //       setIssues(parsedResponse.error);
+    //     } else if (response.ok) {
+    //       // sessionStorage.setItem("user", JSON.stringify(response.id));
+    //       sessionStorage.setItem("user", parsedResponse.id);
+    //       navigate("/");
+    //     }
+
+    //     // Handle successful response
+    //   } catch (error) {
+    //     console.error("Error sending form data: ", error.message);
+    //   }
+    // }
   }
   useEffect(() => {
     setUrlPath();
@@ -103,55 +133,77 @@ export default function Login() {
 
   return path ? (
     <>
-      <Header path={path} />
-      <div>
-        <Link to="/auth/login" className={buttonBorder("login")}>
-          Log In
-        </Link>
-        <Link to="/auth/signup" className={buttonBorder("signup")}>
-          Sign Up
-        </Link>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <label className="container">
-          Email Address:
-          <input
-            type="text"
-            name="email"
-            value={formData.email}
-            onChange={(e) => {handleChange(e);}}
-          />
-        </label>
-        <label className="container">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={(e) => {handleChange(e);}}
-          />
-        </label>
-        <div>
-          {issues ? (
-            <div className="font-italic bg-danger">{issues}</div>
-          ) : null}
-          {successfulSignup && !issues ? (
-            <div className="bg-success">
-              You have successfully created an account! Please log in
-            </div>
-          ) : null}
+      <div data-bs-theme="dark" className="main-form container">
+        <Header path={path} className="" />
+        <div className="d-flex justify-content-center">
+          <Link
+            to="/auth/login"
+            className={buttonBorder("login") + " auth-button"}
+          >
+            <h2 className="mx-2 px-1 pt-1">Log In</h2>
+          </Link>
+          <Link
+            to="/auth/signup"
+            className={buttonBorder("signup") + " auth-button"}
+          >
+            <h2 className="px-2 pt-1">Sign Up</h2>
+          </Link>
         </div>
-        <input
-          type="submit"
-          value={path == "login" ? "Log In" : "Sign Up"}
-          className="container"
-        />
-        {path == "login" ? (
-          <div>
-            Forgot password? <Link to="#">Reset Password</Link>
-          </div>
-        ) : null}
-      </form>
+        <div>
+          <form onSubmit={handleSubmit} className="container">
+            {/* Email section */}
+            <div>
+              <div>Email Address:</div>
+              <input
+                className="form-control"
+                type="text"
+                name="email"
+                value={formData.email}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+            {/* Password section */}
+            <div>
+              <div>Password:</div>
+              <input
+                className="form-control"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+            {/* Issue warning bar */}
+            {issues ? (
+              <div className="alert alert-warning mt-3">{issues}</div>
+            ) : null}
+            {/* Successful signup bar */}
+            {successfulSignup && !issues ? (
+              <div className="alert alert-success">
+                You have successfully created an account! Please log in
+              </div>
+            ) : null}
+            {/* Submit button */}
+            <div className="py-3">
+              <input
+                type="submit"
+                value={path == "login" ? "Log In" : "Sign Up"}
+                className="btn btn-primary my-2 container-sm"
+              />
+            </div>
+            {/* Password recovery button, if on login page */}
+            {path == "login" ? (
+              <div className="text-center py-3">
+                Forgot password? <Link to="#">Reset Password</Link>
+              </div>
+            ) : null}
+          </form>
+        </div>
+      </div>
     </>
   ) : (
     <div className="text-center">

@@ -16,8 +16,22 @@ module.exports = {
         res.status(500);
       }
     } else {
-      // attempts to put random cashflow links leads to 404
-      res.status(404).json({error: "Page not found"});
+      // Attempts at putting a random cashflow link leads to 404
+      res.status(404).json({ error: "Page not found" });
+    }
+  },
+  postItem: async function (req, res) {
+    const name = req.body.name;
+    const amount = req.body.amount;
+    const groupName = req.body.groupName;
+    const cashflow = req.body.cashflow;
+    const userId = req.body.userId;
+    try {
+      Items.postItem(req.db, name, amount, groupName, cashflow, userId);
+      res.status(200).json({ status: "Success!" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Failed to post item to database." });
     }
   },
 };

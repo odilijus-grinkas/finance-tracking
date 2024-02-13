@@ -6,7 +6,7 @@ const router = express.Router();
 router.post("/login", UsersApiController.login);
 
 router.post("/signup", (req, res) => {
-  // model
+  res.status(200).json({nice:'good'})
 });
 
 router.delete("/users", (req, res) => {

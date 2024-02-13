@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import CashGroup from "./CashGroups";
+import CashGroups from "./CashGroups";
 
 export default function Cashflow() {
   // Take flow parameter from URL that contains income or expense
   const { flow } = useParams("flow");
   const [flowData, setFlowData] = useState();
+  const [refetch, setRefetch] = useState(0);
+
   const navigate = useNavigate();
 
   // expects "income" or "expense"
@@ -36,13 +38,14 @@ export default function Cashflow() {
     }
     fetchAndSetData();
     // useEffect re-runs each time the URL parameter "flow" changes
-  }, [flow]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flow, refetch]);
 
   // eslint-disable-next-line no-extra-boolean-cast
   return Boolean(flowData) ? (
     <div>
       <div>Date i.e 2024-02</div>
-      <CashGroup flowData={flowData} />
+      <CashGroups flowData={flowData} refetchData={setRefetch} />
     </div>
   ) : (
     <div className="text-center">

@@ -9,8 +9,8 @@
 - Production client & server via `npm run dev`
 
 todo:
+- Refresh fetches in NewItem
 - Register option
-- Add items to group option
 - Add new group option
 - Balance display
-- Login buttons - how to center on Y-axis, how to put space between them?
+- Date filter
