@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS finance;
 USE finance;
 
 CREATE TABLE IF NOT EXISTS users (
-    id INT(11) PRIMARY KEY AUTO_INCREMENT, email VARCHAR(30), 
+    id INT(11) PRIMARY KEY AUTO_INCREMENT, email VARCHAR(30) UNIQUE, 
     password_hash VARCHAR(100)
 );
 -- cashflow = income/expense, item_group = food/clothes etc.

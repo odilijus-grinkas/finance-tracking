@@ -5,13 +5,9 @@ const router = express.Router();
 
 router.post("/login", UsersApiController.login);
 
-router.post("/signup", (req, res) => {
-  res.status(200).json({nice:'good'})
-});
+router.post("/signup", UsersApiController.signup);
 
-router.delete("/users", (req, res) => {
-  // model
-});
+router.delete("/users", UsersApiController.delete);
 
 router.put("/users/:id", (req, res) => {
   // model

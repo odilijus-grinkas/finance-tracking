@@ -1,5 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
-import "../styles/header.css"
+import UserDeleteButton from "../subComponents/UserDeleteButton";
+import "../styles/header.css";
 
 // eslint-disable-next-line react/prop-types
 export default function Header({ path }) {
@@ -9,8 +10,14 @@ export default function Header({ path }) {
     navigate("/auth/login");
   }
   return (
-    <header className={ path ?  "d-flex justify-content-center" : "d-flex justify-content-between"}>
-    {/*<header className="">*/}
+    <header
+      className={
+        path
+          ? "d-flex justify-content-center"
+          : "d-flex justify-content-between"
+      }
+    >
+      {/*<header className="">*/}
       <div className="d-flex justify-content-around">
         <Link to="/">
           <img src="/logo.png" alt="logo" style={{ height: "5em" }} />
@@ -20,9 +27,12 @@ export default function Header({ path }) {
       <nav className="d-flex align-items-center">
         {/* Check if logged in - display Log Out, else display Log In & Sign Up. If in Login page, remove buttons. */}
         {sessionStorage.getItem("user") ? (
-          <button className="btn btn-warning" onClick={handleClick}>
-            Log Out
-          </button>
+          <div>
+            <UserDeleteButton />
+            <button className="btn btn-warning" onClick={handleClick}>
+              Log Out
+            </button>
+          </div>
         ) : path ? null : (
           <ul className="list-unstyled d-flex text-nowrap justify-content-between">
             <li>

@@ -81,7 +81,7 @@ export default function Login() {
         }
       }
     } catch (err) {
-      setIssues("Server issue.")
+      setIssues("Server issue.");
       console.log(err);
     }
   }
@@ -93,36 +93,8 @@ export default function Login() {
     const newIssue = formValidation();
     setIssues(newIssue);
     if (!newIssue) {
-      fetchData()
+      fetchData();
     }
-    // if (!newIssue && path == "signup") {
-    //   setSuccessfulSignup(true); // only if server responds with success
-    //   setFormData({ email: "", password: "" });
-    // } else if (!newIssue && path == "login") {
-    //   // send login request to server
-    //   try {
-    //     const response = await fetch("http://localhost:3001/login", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(formData),
-    //     });
-    //     const parsedResponse = await response.json();
-    //     if (!response.ok) {
-    //       console.log("Bad credentials");
-    //       setIssues(parsedResponse.error);
-    //     } else if (response.ok) {
-    //       // sessionStorage.setItem("user", JSON.stringify(response.id));
-    //       sessionStorage.setItem("user", parsedResponse.id);
-    //       navigate("/");
-    //     }
-
-    //     // Handle successful response
-    //   } catch (error) {
-    //     console.error("Error sending form data: ", error.message);
-    //   }
-    // }
   }
   useEffect(() => {
     setUrlPath();
@@ -151,6 +123,7 @@ export default function Login() {
         </div>
         <div>
           <form onSubmit={handleSubmit} className="container">
+            <div className="border border-dark container my-2"></div>
             {/* Email section */}
             <div>
               <div>Email Address:</div>
