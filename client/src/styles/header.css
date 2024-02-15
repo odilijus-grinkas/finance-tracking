@@ -1,6 +1,19 @@
 .logo-text{
-  width: 4em;
+  white-space: nowrap;
   text-align: center;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  margin-left: 0.5em;
+  font-family: monospace;
+  font-weight: bold;
+}
+.logo-img{
+  height: 5em;
+  /* text-align: center; */
+}
+.full-logo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logo-hr{
+  border: solid 1px lightgray;
+  margin-top: 0.3em;
 }

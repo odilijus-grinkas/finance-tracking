@@ -1,53 +1,21 @@
-import { useNavigate, Link } from "react-router-dom";
-import UserDeleteButton from "../subComponents/UserDeleteButton";
 import "../styles/header.css";
 
 // eslint-disable-next-line react/prop-types
 export default function Header({ path }) {
-  const navigate = useNavigate();
-  function handleClick() {
-    sessionStorage.removeItem("user");
-    navigate("/auth/login");
-  }
   return (
     <header
+    // Depending on path, will move header to another spot
       className={
         path
           ? "d-flex justify-content-center"
-          : "d-flex justify-content-between"
+          : "container my-3"
       }
     >
-      {/*<header className="">*/}
-      <div className="d-flex justify-content-around">
-        <Link to="/">
-          <img src="/logo.png" alt="logo" style={{ height: "5em" }} />
-        </Link>
-        <div className="logo-text">Finance Tracking App ✨</div>
+      <div className="full-logo">
+        <img src="/logo.png" alt="logo" className="logo-img" />
+        <div className="logo-hr container"></div>
+        <div className="logo-text">Finance Tracker</div>
       </div>
-      <nav className="d-flex align-items-center">
-        {/* Check if logged in - display Log Out, else display Log In & Sign Up. If in Login page, remove buttons. */}
-        {sessionStorage.getItem("user") ? (
-          <div>
-            <UserDeleteButton />
-            <button className="btn btn-warning" onClick={handleClick}>
-              Log Out
-            </button>
-          </div>
-        ) : path ? null : (
-          <ul className="list-unstyled d-flex text-nowrap justify-content-between">
-            <li>
-              <Link to="/auth/login" className="btn btn-primary">
-                Log In
-              </Link>
-            </li>
-            <li>
-              <Link to="/auth/signup" className="btn btn-warning">
-                Sign Up
-              </Link>
-            </li>
-          </ul>
-        )}
-      </nav>
     </header>
   );
 }

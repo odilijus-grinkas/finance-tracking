@@ -9,10 +9,13 @@ export default function Login() {
   const [path, setPath] = useState(undefined); // should read login or register
   const [issues, setIssues] = useState(false);
   const [successfulSignup, setSuccessfulSignup] = useState(false);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const location = useLocation();
 
+  if (sessionStorage.getItem("user")) {
+    navigate("/");
+  }
   // Read URL and set path to login/register
   function setUrlPath() {
     const path = location.pathname.split("/").pop();

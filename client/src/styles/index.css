@@ -1,0 +1,37 @@
+.left-panel{
+  margin-right: 1em;
+}
+.index-wrap{
+  position: fixed;
+  /* height: 100%; */
+  width: 100%;
+  overflow: auto;
+}
+.right-panel{
+  width:75%;
+}
+.right-panel-cashflow{
+
+  padding-right: 1.05em;
+  /* padding-right: 100vw; */
+  /* margin-left: calc(100vw - 100%); */
+  /* max-height: 34em; */
+  /* max-height: 90%; */
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.right-panel-options{
+  margin-bottom: 0.5em;
+}
+.balanceArea{
+  height:12em
+}
+@media (max-width: 800px) {
+  .left-panel{
+    width: 25%
+    /* background-color: red; */
+  }
+  .right-panel{
+    width: 75%
+  }
+}

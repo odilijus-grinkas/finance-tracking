@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-export default function UserDeleteButton() {
+export default function UserButtons() {
   const navigate = useNavigate();
   // Deletes user based on ID
   async function userDeleteFetch() {
@@ -10,7 +10,7 @@ export default function UserDeleteButton() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({userId:userId}),
+        body: JSON.stringify({ userId: userId }),
       });
       if (!response.ok) {
         const parsedResponse = await response.json();
@@ -25,15 +25,25 @@ export default function UserDeleteButton() {
     }
   }
   // Gives prompt to confirm deletion
-  function handeClick() {
+  function handeDeleteClick() {
     const isTrue = confirm("Do you really want to delete your account?");
     if (isTrue) {
       userDeleteFetch();
     }
   }
+  // Logout button removes from session & navigates to auth
+  function handleLogoutClick() {
+    sessionStorage.removeItem("user");
+    navigate("/auth/login");
+  }
   return (
-    <button className="btn btn-danger mx-2" onClick={handeClick}>
-      Delete Account
-    </button>
+    <div className="d-flex flex-column">
+      <button className="btn btn-warning" onClick={handleLogoutClick}>
+        Log Out
+      </button>
+      <button className="btn btn-danger my-2" onClick={handeDeleteClick}>
+        Delete Account
+      </button>
+    </div>
   );
 }

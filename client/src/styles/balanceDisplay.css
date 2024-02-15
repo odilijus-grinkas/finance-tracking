@@ -1,0 +1,12 @@
+.balanceDisplay{
+  width: 10em;
+  position: absolute;
+  transform: translateX(-110%);
+  top:8em;
+  text-align: center;
+}
+@media (max-width:768px) {
+  .balanceDisplay{
+    width: 8em;
+  }
+}
