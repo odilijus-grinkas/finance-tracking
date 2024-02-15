@@ -70,7 +70,7 @@ module.exports = {
   },
   updateGroups: async function (db, user_id, groupName, cashflow,){
     try{
-      await db.query("UPDATE ITEMS SET item_group = 'ungrouped' WHERE users_id = ? AND item_group = ? AND cashflow = ?",[user_id, groupName, cashflow]);
+      await db.query("UPDATE items SET item_group = 'ungrouped' WHERE users_id = ? AND item_group = ? AND cashflow = ?",[user_id, groupName, cashflow]);
     } catch (err){
       console.log(err)
     }
