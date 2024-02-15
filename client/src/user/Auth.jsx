@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate} from "react-router-dom";
+import PassRecover from "./PassRecover";
 import Header from "../sharedComponents/Header";
 import "../styles/backgrounds.css";
 import "../styles/form.css";
@@ -174,7 +175,8 @@ export default function Login() {
             {/* Password recovery button, if on login page */}
             {path == "login" ? (
               <div className="text-center py-3">
-                Forgot password? <Link to="#">Reset Password</Link>
+                <PassRecover/>
+                {/* Forgot password? <Link to="/auth/password_recovery">Reset Password</Link> */}
               </div>
             ) : null}
           </form>

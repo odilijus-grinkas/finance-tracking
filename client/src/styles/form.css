@@ -27,6 +27,15 @@
   background-color: #0762bd;
   transition: background-color 0.2s ease-in; 
 }
+.passRecoveryButton{
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: rgba(89, 89, 219, 0.662)
+}
+.passRecoveryButton:hover{
+  color: rgb(89, 89, 219)
+}
 @media (min-width: 500px) {
   .main-form {
     width: 500px !important;
