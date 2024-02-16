@@ -9,7 +9,7 @@ export default function FormModal({
   children,
   // modal title
   title,
-  // Function that gets run upon form submission. Receives formData & is expected to return fetch response.
+  // Function that gets run upon form submission. Receives formData & is expected to return fetch response or Error instance.
   submitFunction = () => {},
   // Name & style for button that displays modal
   buttonName = "Form Button",

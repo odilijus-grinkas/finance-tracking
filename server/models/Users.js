@@ -25,14 +25,20 @@ module.exports = {
         password_hash,
       ]);
     } catch (err) {
-      return 
+      return;
     }
   },
   delete: async function (db, userId) {
-    try{
-      await db.query("DELETE FROM users WHERE id = ?",[userId]);
-    } catch (err){
-      return err
+    try {
+      await db.query("DELETE FROM users WHERE id = ?", [userId]);
+    } catch (err) {
+      return err;
     }
-  }
+  },
+  getEmail: function (db, email) {
+    return db.query("SELECT email FROM users WHERE email = ?", [email]);
+  },
+  resetPass: function (db, email, password_hash) {
+    db.query("UPDATE users SET password_hash = ? WHERE email = ?", [password_hash, email]);
+  },
 };

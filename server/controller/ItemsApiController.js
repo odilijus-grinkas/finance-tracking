@@ -21,8 +21,6 @@ module.exports = {
     }
   },
   postItem: async function (req, res) {
-    console.log("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-    console.log(req.body);
     const name = req.body.name;
     const amount = req.body.amount;
     const groupName = req.body.group;

@@ -55,4 +55,19 @@ module.exports = {
       res.status(200).json({ status: "Success" });
     }
   },
+  // Checks if email exists, if it does it sends it a token to change pass.
+  sendEmail: async function (req, res) {
+    const email = req.body.email;
+    try {
+      [response] = await Users.getEmail(req.db, email);
+      if (response.length < 1) {
+        res.status(403).json({ error: "Email does not exist." });
+      } else {
+        res.status(200).json({ status: "OK" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err.name });
+    }
+  },
 };
