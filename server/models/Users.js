@@ -35,8 +35,14 @@ module.exports = {
       return err;
     }
   },
-  getEmail: function (db, email) {
-    return db.query("SELECT email FROM users WHERE email = ?", [email]);
+  getIdFromEmail: function (db, email) {
+    return db.query("SELECT id FROM users WHERE email = ?", [email]);
+  },
+  addToken: function (db, token, userId){
+    db.query("INSERT INTO tokens (token, users_id, created) VALUES (?, ?, CURDATE())", [token, userId]);
+  },
+  getToken : function (db, token){
+    return db.query("SELECT * FROM tokens WHERE token = ?", [token]);
   },
   resetPass: function (db, email, password_hash) {
     db.query("UPDATE users SET password_hash = ? WHERE email = ?", [password_hash, email]);

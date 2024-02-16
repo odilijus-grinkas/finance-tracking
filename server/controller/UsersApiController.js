@@ -55,19 +55,43 @@ module.exports = {
       res.status(200).json({ status: "Success" });
     }
   },
-  // Checks if email exists, if it does it sends it a token to change pass.
+  // Checks if email exists, if it does - creates recovery token.
   sendEmail: async function (req, res) {
     const email = req.body.email;
     try {
-      [response] = await Users.getEmail(req.db, email);
+      [response] = await Users.getIdFromEmail(req.db, email);
       if (response.length < 1) {
         res.status(403).json({ error: "Email does not exist." });
       } else {
-        res.status(200).json({ status: "OK" });
+        const token = String(Math.random()).substring(2);
+        try {
+          await Users.addToken(req.db, token, response[0].id);
+          console.log(token);
+          res.status(200).json({ token: token });
+        } catch (err){
+          console.log(err);
+          res.status(500).json({error: err.message});
+        }
       }
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: err.name });
     }
   },
+  testToken: async function (req, res){
+    const token = req.params.token;
+    console.log("HELLO")
+    try {
+      const [response] = await Users.getToken(req.db, token);
+      if (response.length < 1){
+        res.status(403).json({error: "Token doesn't exist."})
+      } else {
+        const date = response[0].date; // check if token is valid
+        res.status(200).json({status: "OK"});
+      }
+    } catch(err) {
+      console.log(err);
+      res.status(500).json({error: err.message})
+    }
+  }
 };

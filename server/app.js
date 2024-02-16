@@ -29,8 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
-app.use(itemRoutes);
 app.use(userRoutes);
+app.use(itemRoutes);
 
 app.listen(port, () => {
   console.log(`Server listening on: http://localhost:${port}`);

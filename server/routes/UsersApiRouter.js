@@ -11,6 +11,8 @@ router.delete("/users", UsersApiController.delete);
 
 router.post("/pass_reset", UsersApiController.sendEmail);
 
+router.get("/token/:token", UsersApiController.testToken );
+
 router.put("/users/:id", (req, res) => {
   // model
 });
