@@ -44,7 +44,10 @@ module.exports = {
   getToken : function (db, token){
     return db.query("SELECT * FROM tokens WHERE token = ?", [token]);
   },
-  resetPass: function (db, email, password_hash) {
-    db.query("UPDATE users SET password_hash = ? WHERE email = ?", [password_hash, email]);
+  removeToken : function (db, token){
+    db.query("DELETE FROM tokens WHERE token = ?", [token])
+  },
+  changePass: function (db, userId, password_hash) {
+    db.query("UPDATE users SET password_hash = ? WHERE id = ?", [password_hash, userId]);
   },
 };

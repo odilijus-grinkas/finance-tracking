@@ -13,7 +13,5 @@ router.post("/pass_reset", UsersApiController.sendEmail);
 
 router.get("/token/:token", UsersApiController.testToken );
 
-router.put("/users/:id", (req, res) => {
-  // model
-});
+router.put("/users", UsersApiController.changePassword);
 module.exports = router;

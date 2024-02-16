@@ -14,7 +14,7 @@ export default function PassRecover() {
       });
       if (response.ok) {
         const parsed = await response.json()
-        window.alert(`An email has been sent to ${formData.email}. Pretend you received it and use this link to reset password: http://localhost:3000/auth/${parsed.token}`);
+        window.alert(`Pretend ${formData.email} got this email: Password reset link: http://localhost:3000/auth/${parsed.token}`);
         return {ok: true};
       } else {
         return response;

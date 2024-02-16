@@ -66,7 +66,6 @@ module.exports = {
         const token = String(Math.random()).substring(2);
         try {
           await Users.addToken(req.db, token, response[0].id);
-          console.log(token);
           res.status(200).json({ token: token });
         } catch (err){
           console.log(err);
@@ -80,18 +79,29 @@ module.exports = {
   },
   testToken: async function (req, res){
     const token = req.params.token;
-    console.log("HELLO")
     try {
       const [response] = await Users.getToken(req.db, token);
       if (response.length < 1){
         res.status(403).json({error: "Token doesn't exist."})
       } else {
-        const date = response[0].date; // check if token is valid
-        res.status(200).json({status: "OK"});
+        // const date = response[0].date; 
+        res.status(200).json({id: response[0].users_id});
       }
     } catch(err) {
       console.log(err);
       res.status(500).json({error: err.message})
+    }
+  },
+  changePassword: async function (req, res){
+    const password = req.body.password;
+    const password_hash = await bcryptjs.hash(password, 10);
+    const userId = req.body.userId;
+    try {
+    await Users.changePass(req.db, userId, password_hash);
+      res.status(200).json({status: "OK"})
+    } catch(err){
+      console.log(err)
+      res.status(500).json({error: "Server error."})
     }
   }
 };
