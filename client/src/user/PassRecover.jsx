@@ -14,7 +14,7 @@ export default function PassRecover() {
       });
       if (response.ok) {
         const parsed = await response.json()
-        window.alert(`Pretend ${formData.email} got this email: Password reset link: http://localhost:3000/auth/${parsed.token}`);
+        window.alert(`Pretend ${formData.email} got this email: Password reset link: http://localhost:3000/auth/${parsed.token} Note: this link will expire in 1 day.`);
         return {ok: true};
       } else {
         return response;

@@ -67,9 +67,9 @@ module.exports = {
         try {
           await Users.addToken(req.db, token, response[0].id);
           res.status(200).json({ token: token });
-        } catch (err){
+        } catch (err) {
           console.log(err);
-          res.status(500).json({error: err.message});
+          res.status(500).json({ error: err.message });
         }
       }
     } catch (err) {
@@ -77,31 +77,45 @@ module.exports = {
       res.status(500).json({ error: err.name });
     }
   },
-  testToken: async function (req, res){
+  testToken: async function (req, res) {
     const token = req.params.token;
+    function isExpired(dateString) {
+      const comparedDate = new Date(dateString).getTime();
+      const today = new Date().getTime();
+      const oneDayInMillis = 24 * 60 * 60 * 1000;
+      if (today - comparedDate > oneDayInMillis) {
+        return true;
+      } else {
+        return false;
+      }
+    }
     try {
       const [response] = await Users.getToken(req.db, token);
-      if (response.length < 1){
-        res.status(403).json({error: "Token doesn't exist."})
+      if (response.length < 1) {
+        res.status(403).json({ error: "Token doesn't exist." });
       } else {
-        // const date = response[0].date; 
-        res.status(200).json({id: response[0].users_id});
+        const createdDate = response[0].created;
+        if (isExpired(createdDate)) {
+          res.status(403).json({ error: "Token is expired." });
+        } else {
+          res.status(200).json({ id: response[0].users_id });
+        }
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
-      res.status(500).json({error: err.message})
+      res.status(500).json({ error: err.message });
     }
   },
-  changePassword: async function (req, res){
+  changePassword: async function (req, res) {
     const password = req.body.password;
     const password_hash = await bcryptjs.hash(password, 10);
     const userId = req.body.userId;
     try {
-    await Users.changePass(req.db, userId, password_hash);
-      res.status(200).json({status: "OK"})
-    } catch(err){
-      console.log(err)
-      res.status(500).json({error: "Server error."})
+      await Users.changePass(req.db, userId, password_hash);
+      res.status(200).json({ status: "OK" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Server error." });
     }
-  }
+  },
 };

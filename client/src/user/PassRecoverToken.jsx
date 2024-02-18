@@ -28,7 +28,6 @@ export default function PassRecoverToken() {
     setFormData((oldData) => {
       return { ...oldData, [name]: val };
     });
-    console.log(formData)
   }
   async function submitHandler(e) {
     e.preventDefault();
