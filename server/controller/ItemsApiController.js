@@ -1,4 +1,5 @@
 const Items = require("../models/Items");
+const Groups = require("../models/Groups");
 
 module.exports = {
   getAllItemsByCashflow: async function (req, res) {
@@ -84,11 +85,12 @@ module.exports = {
     const cashflow = req.body.cashflow;
     const userId = req.body.userId;
     try {
-      items = await Items.deleteGroup(req.db, userId, groupName, cashflow);
+      items = await Groups.deleteGroup(req.db, userId, groupName, cashflow);
       res.status(200).json({ status: "OK" });
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Server Error" });
     }
   },
+  
 };

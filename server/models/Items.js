@@ -47,15 +47,5 @@ module.exports = {
       "UPDATE items SET name = ?, amount = ?, date = ? WHERE id = ?",
       [name, amount, date, id]
     ));
-  },
-  deleteGroup: async function (db, user_id, groupName) {
-    try {
-      await db.query(
-        "DELETE FROM transaction_group WHERE users_id = ? AND group_name = ?",
-        [user_id, groupName]
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  },
+  }
 };

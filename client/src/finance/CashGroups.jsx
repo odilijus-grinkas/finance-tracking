@@ -8,41 +8,49 @@ export default function CashGroups({ flowData, setRefetch, cashflow }) {
   // Takes flowData and returns all unique groups
   function itemGroups(objectArray) {
     const groups = [];
+    let containsNull = false;
     console.log(objectArray);
     for (let obj of objectArray) {
       let groupName = obj.group_name;
+      const groupId = obj.group_id;
       // replace null with ungrouped
-      groupName == null ? (groupName = "ungrouped") : null;
+      if (groupName == null) {
+        groupName = "ungrouped";
+        containsNull = true;
+      }
       // do not add repeating groups
-      if (!groups.some((innerArr) => innerArr.includes(groupName))) {
-        groups.push(groupName);
+      if (!groups.some((innerObj) => innerObj.groupName === groupName)) {
+        groups.push({ groupName: groupName, groupId: groupId });
       }
     }
-    groups.sort();
+    // sort groups alphabetically
+    groups.sort((a, b) => {
+      return a.groupName.localeCompare(b.groupName);
+    });
+    // If 'ungrouped' exists, places it at the top of the array.
+    if (containsNull) {
+      let ungroupedIndex = groups.findIndex(
+        (item) => item.groupName === "ungrouped"
+      );
+      let ungroupedItem = groups.splice(ungroupedIndex, 1)[0];
+      groups.unshift(ungroupedItem);
+    }
     // move ungrouped to top of the list if it exists
-    if (groups.includes("ungrouped")) {
-      const newGroups = ["ungrouped"];
-      for (let e of groups) {
-        e != "ungrouped" ? newGroups.push(e) : null;
-      }
-      return newGroups;
-    } else {
-      return groups;
-    }
+    return groups;
   }
 
   return (
     <>
       <table className="table table-striped table-dark">
         <tbody>
-          {itemGroups(flowData).map((elem, index) => {
-            let groupName = elem;
-            let groupId = index;
+          {itemGroups(flowData).map((group, index) => {
+            let groupName = group.groupName;
+            let groupId = group.groupId; // this may be null
             return (
-              <tr key={groupId}>
+              <tr key={index}>
                 <td>
                   <h4>{groupName}</h4>
-                  {/* Section that all items that belong to their respected groupName */}
+                  {/* Section for all items that belong to their respective groupName */}
                   <ul className="list-group">
                     <CashItems
                       flowData={flowData}
@@ -62,6 +70,7 @@ export default function CashGroups({ flowData, setRefetch, cashflow }) {
                     buttonStyle="groupNewItemButton my-2"
                     buttonIcon="bi bi-plus-lg"
                     buttonTitle="ADD ITEM"
+                    groupId={groupId}
                   />
                   {/* Delete group button (does not appear on 'ungrouped' category.) */}
                   {groupName == "ungrouped" ? null : (
