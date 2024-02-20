@@ -7,7 +7,6 @@ import DeleteGroupButton from "./modalButtons/DeleteGroupButton";
 export default function CashGroups({ flowData, setRefetch, cashflow }) {
   // Takes flowData and returns all unique groups
   function itemGroups(objectArray) {
-    console.log(objectArray);
     const groups = [];
     for (let obj of objectArray) {
       let groupName = obj.group_name;
@@ -42,13 +41,14 @@ export default function CashGroups({ flowData, setRefetch, cashflow }) {
               <tr key={groupId}>
                 <td>
                   <h4>{groupName}</h4>
+                {/* Section that all items that belong to their respected groupName */}
                   <ul className="list-group">
                     <CashItems flowData={flowData} itemGroup={groupName} setRefetch={setRefetch} cashflow={cashflow} />
                   </ul>
                 </td>
-                {/* Section that renders each item that belongs to its respected groupName */}
+                {/* ADD ITEM button (for inserting items into the group it's rendered at) */}
                 <td>
-                  {/* <NewItemButton
+                  <NewItemButton
                     cashflow={cashflow}
                     setRefetch={setRefetch}
                     userId={sessionStorage.getItem("user")}
@@ -56,7 +56,7 @@ export default function CashGroups({ flowData, setRefetch, cashflow }) {
                     buttonStyle="groupNewItemButton my-2"
                     buttonIcon="bi bi-plus-lg"
                     buttonTitle="ADD ITEM"
-                  /> */}
+                  />
                 {(groupName == "ungrouped") ? null : 
                 <DeleteGroupButton cashflow={cashflow} userId={sessionStorage.getItem("user")} groupName={groupName} setRefetch={setRefetch}/>
                 }
