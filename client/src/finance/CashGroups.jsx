@@ -8,7 +8,6 @@ export default function CashGroups({ flowData, setRefetch, cashflow }) {
   // Takes flowData and returns all unique groups
   function itemGroups(objectArray) {
     const groups = [];
-    console.log(objectArray);
     for (let obj of objectArray) {
       let groupName = obj.group_name;
       // replace null with ungrouped
