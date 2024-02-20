@@ -65,3 +65,13 @@
 .rightPanelNewItemButton:hover{
   background-color: rgba(74, 70, 31, 0.807);
 }
+.flow-distinction{
+  font-weight: bold;
+  font-size: medium;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100px;
+}

@@ -48,8 +48,7 @@ export default function Cashflow() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flow, refetch, from, to]);
 
-  // eslint-disable-next-line no-extra-boolean-cast
-  return Boolean(flowData) ? (
+  return flowData ? (
     <>
       {/* Add new item button */}
       <div className="d-flex justify-content-between right-panel-options">
@@ -61,6 +60,16 @@ export default function Cashflow() {
           buttonIcon="bi bi-currency-exchange"
           buttonTitle="New"
         />
+        {/* Text to distinguish if we're looking looking at income or expenses */}
+        {flow == "income" ? (
+          <div className="text-success flow-distinction">
+            <i className="bi bi-arrow-bar-down"></i>Income
+          </div>
+        ) : (
+          <div className="text-danger flow-distinction">
+            <i className="bi bi-arrow-bar-up"></i>Expenses
+          </div>
+        )}
         {/* Sort by date button seciton that changes to Clear button that removes sorting*/}
         {from && to ? (
           <Link to={`/cash/${flow}`} className="sortByDateButton">
@@ -74,13 +83,20 @@ export default function Cashflow() {
         ) : null}
       </div>
       {/* Section that shows all groups (and items within them) */}
-      <div className="right-panel-cashflow">
-        <CashGroups
-          flowData={flowData}
-          setRefetch={setRefetch}
-          cashflow={flow}
-        />
-      </div>
+      {flowData.length < 1 ? (
+        // If transactions are absent in the specified date, displays "No transactions" text.
+        <h3 className="text-center py-5">
+          No transactions at this time, create a new one!
+        </h3>
+      ) : (
+        <div className="right-panel-cashflow">
+          <CashGroups
+            flowData={flowData}
+            setRefetch={setRefetch}
+            cashflow={flow}
+          />
+        </div>
+      )}
       {/* Balance section, placed here for refresh simplicity */}
       <Balance userId={sessionStorage.getItem("user")} refresh={refetch} />
     </>
