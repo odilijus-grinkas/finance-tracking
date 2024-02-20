@@ -56,12 +56,9 @@ module.exports = {
     const to = req.params.to;
     try {
       const result = await Items.getByDate(req.db, id, from, to, cashflow);
-      if (result instanceof Error) {
-        res.status(403).json({ error: "Data incorrect." });
-      } else {
-        res.status(200).json(result);
-      }
+      res.status(200).json(result);
     } catch (err) {
+      console.log(err);
       res.status(500).json({ error: "Server Error" });
     }
   },
@@ -87,9 +84,8 @@ module.exports = {
     const cashflow = req.body.cashflow;
     const userId = req.body.userId;
     try {
-      items = await Items.updateGroups(req.db, userId, groupName, cashflow);
-      res.status(200).json({status: "OK"})
-
+      items = await Items.deleteGroup(req.db, userId, groupName, cashflow);
+      res.status(200).json({ status: "OK" });
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Server Error" });

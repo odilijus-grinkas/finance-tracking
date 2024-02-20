@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(100)
 );
 CREATE TABLE IF NOT EXISTS transaction_group(
-    id INT(11) PRIMARY KEY AUTO_INCREMENT, 
+    group_id INT(11) PRIMARY KEY AUTO_INCREMENT, 
     group_name VARCHAR(20),
     users_id INT(11), 
     FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE CASCADE
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS items (
     users_id INT(11), 
     transaction_group_id INT(11),
     FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE CASCADE,
-    FOREIGN KEY (transaction_group_id) REFERENCES transaction_group (id) ON DELETE SET NULL
+    FOREIGN KEY (transaction_group_id) REFERENCES transaction_group (group_id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS tokens (

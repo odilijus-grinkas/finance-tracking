@@ -5,7 +5,6 @@ export default function CashItems({ flowData, itemGroup, setRefetch={setRefetch}
   function itemsOfOneGroup(flowData, group) {
     // If the group is "ungrouped" - treat it as null instead to place items without a group in the same ungrouped category.
     (group == 'ungrouped') ? group = null : null
-    console.log(group);
     const items = [];
     for (let obj of flowData) {
       if (obj.group_name == group) {

@@ -40,11 +40,12 @@ export default function Cashflow() {
     setFlowData(undefined);
     // Fetching and setting data to flowData variable
     async function fetchAndSetData() {
+      // If from/to url is specified, fetches according to date range.
       let fetchedData = await fetchData(flow, from ? `${from}/${to}` : "");
+      console.log(fetchedData);
       setFlowData(fetchedData);
     }
     fetchAndSetData();
-    // useEffect re-runs each time the URL parameter "flow" changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flow, refetch, from, to]);
 
