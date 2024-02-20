@@ -6,37 +6,52 @@ import DeleteGroupButton from "./modalButtons/DeleteGroupButton";
 // eslint-disable-next-line react/prop-types
 export default function CashGroups({ flowData, setRefetch, cashflow }) {
   // Takes flowData and returns all unique groups
-  function itemGroups(array) {
+  function itemGroups(objectArray) {
     const groups = [];
-    let index = 1;
-    for (let obj of array) {
+    for (let obj of objectArray) {
+      let groupName = obj.group_name;
+      // replace null with ungrouped
+      groupName == null ? (groupName = "ungrouped") : null;
       // do not add repeating groups
-      if (!groups.some((innerArr) => innerArr.includes(obj.item_group))) {
-        groups.push([index, obj.item_group]);
-        index++;
+      if (!groups.some((innerArr) => innerArr.includes(groupName))) {
+        groups.push(groupName);
       }
     }
-    return groups;
+    groups.sort();
+    // move ungrouped to top of the list if it exists
+    if (groups.includes("ungrouped")) {
+      const newGroups = ["ungrouped"];
+      for (let e of groups) {
+        e != "ungrouped" ? newGroups.push(e) : null;
+      }
+      return newGroups;
+    } else {
+      return groups;
+    }
   }
-
-  const groups = itemGroups(flowData);
 
   return (
     <>
       <table className="table table-striped table-dark">
         <tbody>
-          {groups.map((e) => {
-            let groupId = e[0];
-            let groupName = e[1];
+          {itemGroups(flowData).map((elem, index) => {
+            let groupName = elem;
+            let groupId = index;
             return (
               <tr key={groupId}>
                 <td>
                   <h4>{groupName}</h4>
+                  {/* Section that all items that belong to their respected groupName */}
                   <ul className="list-group">
-                    <CashItems flowData={flowData} itemGroup={groupName} setRefetch={setRefetch} cashflow={cashflow} />
+                    <CashItems
+                      flowData={flowData}
+                      itemGroup={groupName}
+                      setRefetch={setRefetch}
+                      cashflow={cashflow}
+                    />
                   </ul>
                 </td>
-                {/* <td><NewItem groupName={groupName} refetchData={refetchData}/></td> */}
+                {/* ADD ITEM button (for inserting items into the group it's rendered at) */}
                 <td>
                   <NewItemButton
                     cashflow={cashflow}
@@ -47,9 +62,15 @@ export default function CashGroups({ flowData, setRefetch, cashflow }) {
                     buttonIcon="bi bi-plus-lg"
                     buttonTitle="ADD ITEM"
                   />
-                {(groupName == "ungrouped") ? null : 
-                <DeleteGroupButton cashflow={cashflow} userId={sessionStorage.getItem("user")} groupName={groupName} setRefetch={setRefetch}/>
-                }
+                  {/* Delete group button (does not appear on 'ungrouped' category.) */}
+                  {groupName == "ungrouped" ? null : (
+                    <DeleteGroupButton
+                      cashflow={cashflow}
+                      userId={sessionStorage.getItem("user")}
+                      groupName={groupName}
+                      setRefetch={setRefetch}
+                    />
+                  )}
                 </td>
               </tr>
             );

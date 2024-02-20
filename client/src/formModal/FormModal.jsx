@@ -143,7 +143,7 @@ export default function FormModal({
                   deleteButton(e, handleCancel, formData);
                 }}
               >
-                <i className="bi bi-trash3"></i>
+                <i className="bi bi-trash3"></i> Delete Item
               </button>
             ) : null}
           </div>

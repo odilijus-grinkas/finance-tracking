@@ -21,7 +21,6 @@ export default function NewItemButton({cashflow, userId, setRefetch, group, butt
       userId: userId,
       ...addGroup,
     };
-    console.log("hi")
     console.log(readyFormData)
     try {
       const response = await fetch("http://localhost:3001/item", {

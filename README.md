@@ -4,7 +4,7 @@
 1. Install & start Docker
 2. Make sure ports 3000 & 3001 are not being used.
 3. Open finance-tracking directory through the console & write `docker compose up -d`
-4. Visit site via link: http://localhost:3000 (allow some seconds for server & database to start).
+4. Visit site via link: http://localhost:3000 (allow some seconds for server & database to start, initial start takes longer to download modules).
 
 
 ## Dev Instructions
