@@ -6,10 +6,10 @@ module.exports = {
     ]);
     return cashflow;
   },
-  // Returns all items by user_id(INT) and cashflow, which can be "income" or "expense"
+  // Returns all items & groups by user_id(INT) and cashflow, which can be "income" or "expense"
   getByCashflow: async function (db, user_id, cashflow) {
     const [items] = await db.query(
-      "SELECT * FROM items WHERE users_id = ? AND cashflow = ?",
+      "SELECT * FROM items LEFT JOIN transaction_group ON transaction_group_id = transaction_group.id WHERE items.users_id = ? AND cashflow = ?",
       [user_id, cashflow]
       );
     return items;

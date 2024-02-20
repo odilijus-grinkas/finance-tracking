@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 CREATE TABLE IF NOT EXISTS transaction_group(
     id INT(11) PRIMARY KEY AUTO_INCREMENT, 
-    name VARCHAR(20),
+    group_name VARCHAR(20),
     users_id INT(11), 
     FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE CASCADE
 );

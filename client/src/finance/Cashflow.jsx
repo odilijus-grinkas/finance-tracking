@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import Balance from "./balance/Balance";
 import NewItemButton from "./modalButtons/NewItemButton";
 import SortByDateButton from "./modalButtons/SortByDateButton";
-import "../styles/buttons.css"
+import "../styles/buttons.css";
 
 import CashGroups from "./CashGroups";
 // Generates table of income/expense as well as buttons to interact with them.
@@ -51,7 +51,7 @@ export default function Cashflow() {
   // eslint-disable-next-line no-extra-boolean-cast
   return Boolean(flowData) ? (
     <>
-    {/* Add new item & sort by date uttons */}
+      {/* Add new item button */}
       <div className="d-flex justify-content-between right-panel-options">
         <NewItemButton
           cashflow={flow}
@@ -61,17 +61,21 @@ export default function Cashflow() {
           buttonIcon="bi bi-currency-exchange"
           buttonTitle="New"
         />
+        {/* Create group button, needed for new functionality */}
+        <button>Create group</button>
+        {/* Sort by date button seciton that changes to Clear button that removes sorting*/}
         {from && to ? (
-          <Link to={`/cash/${flow}`} className="sortByDateButton"><i className="bi bi-x-lg"></i> Clear</Link>
+          <Link to={`/cash/${flow}`} className="sortByDateButton">
+            <i className="bi bi-x-lg"></i> Clear
+          </Link>
         ) : flow ? (
           <SortByDateButton
             flowParam={flow}
             userId={sessionStorage.getItem("user")}
           />
         ) : null}
-
-        {/* <SortByDateButton flowParam={flow} userId={sessionStorage.getItem("user")}/> */}
       </div>
+      {/* Section that shows all groups (and items within them) */}
       <div className="right-panel-cashflow">
         <CashGroups
           flowData={flowData}
@@ -79,7 +83,8 @@ export default function Cashflow() {
           cashflow={flow}
         />
       </div>
-      <Balance userId={sessionStorage.getItem("user")} refresh={refetch}/>
+      {/* Balance section, placed here for refresh simplicity */}
+      <Balance userId={sessionStorage.getItem("user")} refresh={refetch} />
     </>
   ) : (
     <div className="text-center">
