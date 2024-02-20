@@ -42,7 +42,6 @@ export default function Cashflow() {
     async function fetchAndSetData() {
       // If from/to url is specified, fetches according to date range.
       let fetchedData = await fetchData(flow, from ? `${from}/${to}` : "");
-      console.log(fetchedData);
       setFlowData(fetchedData);
     }
     fetchAndSetData();
@@ -62,8 +61,6 @@ export default function Cashflow() {
           buttonIcon="bi bi-currency-exchange"
           buttonTitle="New"
         />
-        {/* Create group button, needed for new functionality */}
-        <button>Create group</button>
         {/* Sort by date button seciton that changes to Clear button that removes sorting*/}
         {from && to ? (
           <Link to={`/cash/${flow}`} className="sortByDateButton">
