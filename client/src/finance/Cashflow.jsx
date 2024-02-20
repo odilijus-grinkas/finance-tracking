@@ -16,7 +16,7 @@ export default function Cashflow() {
   const navigate = useNavigate();
 
   // expects "income" or "expense"
-  const fetchData = async function (cashflow, date = "") {
+  async function fetchData(cashflow, date = "") {
     try {
       const userId = sessionStorage.getItem("user");
       const response = await fetch(
@@ -33,7 +33,7 @@ export default function Cashflow() {
       console.log("Could not fetch, has the server started?");
       navigate("/");
     }
-  };
+  }
 
   useEffect(() => {
     // resetting flowData, so old data isn't reused
