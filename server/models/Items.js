@@ -31,37 +31,22 @@ module.exports = {
     userId,
     date
   ) {
-    try {
-      await db.query(
-        "INSERT INTO items (name, amount, cashflow, item_group, date, users_id) VALUES (?, ?, ?, ?, ?, ?)",
-        [name, amount, cashflow, groupName, date, userId]
-      );
-      // Likely error if number or name too big
-    } catch (err) {
-      console.log(err);
-      console.log("error");
-      return err;
-    }
+    return await db.query(
+      "INSERT INTO items (name, amount, cashflow, item_group, date, users_id) VALUES (?, ?, ?, ?, ?, ?)",
+      [name, amount, cashflow, groupName, date, userId]
+    );
   },
   deleteItem: async function (db, itemId) {
-    try {
-      const response = await db.query("DELETE FROM items WHERE id = ?", itemId);
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
+    return (response = await db.query(
+      "DELETE FROM items WHERE id = ?",
+      itemId
+    ));
   },
   updateItem: async function (db, name, amount, date, id) {
-    try {
-      const response = await db.query(
-        "UPDATE items SET name = ?, amount = ?, date = ? WHERE id = ?",
-        [name, amount, date, id]
-      );
-      return response;
-    } catch (err) {
-      console.log(err);
-      return response;
-    }
+    return (response = await db.query(
+      "UPDATE items SET name = ?, amount = ?, date = ? WHERE id = ?",
+      [name, amount, date, id]
+    ));
   },
   deleteGroup: async function (db, user_id, groupName) {
     try {

@@ -37,16 +37,10 @@ module.exports = {
         userId,
         date
       );
-      // If error while trying to post, send error message
-      if (result instanceof Error) {
-        res.status(500).json({ error: "Invalid name or amount." });
-        // Otherwise send success message
-      } else {
-        res.status(200).json({ status: "Success!" });
-      }
+      res.status(200).json({ status: "Success!" });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: "Failed to post item to database." });
+      res.status(500).json({ error: "Invalid name or amount." });
     }
   },
   getAllItemsByCashflowAndDate: async function (req, res) {
@@ -64,8 +58,13 @@ module.exports = {
   },
   deleteItem: async function (req, res) {
     const id = req.body.id;
-    await Items.deleteItem(req.db, id);
-    res.status(200).json({ status: "OK" });
+    try {
+      await Items.deleteItem(req.db, id);
+      res.status(200).json({ status: "OK" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Server Error" });
+    }
   },
   updateItem: async function (req, res) {
     const id = req.body.id;
@@ -76,6 +75,7 @@ module.exports = {
       await Items.updateItem(req.db, name, amount, date, id);
       res.status(200).json({ status: "OK" });
     } catch (err) {
+      console.log(err);
       res.status(500).json({ error: "Server Error" });
     }
   },
