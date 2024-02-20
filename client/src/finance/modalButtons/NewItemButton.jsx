@@ -5,13 +5,13 @@ import {
   DecimalFormInput,
   DateFormInput,
 } from "../../formModal/FormInputWrappers";
-// Posts new item to DB & refetches data. If group is provided it will use its id as its value and not allow user to change it.
+// Posts new item to DB & refetches data. If group is provided it will use it as value and not allow user to change it.
 // eslint-disable-next-line react/prop-types
-export default function NewItemButton({cashflow, userId, setRefetch, group, buttonTitle, buttonStyle, buttonIcon, groupId}) {
+export default function NewItemButton({cashflow, userId, setRefetch, group, buttonTitle, buttonStyle, buttonIcon,}) {
   async function submitFunction(fieldData) {
     let addGroup;
     if (group) {
-      addGroup = { group: groupId };
+      addGroup = { group: group };
     } else {
       addGroup = {};
     }
