@@ -26,14 +26,14 @@ module.exports = {
     db,
     name,
     amount,
-    groupName,
+    group_id,
     cashflow,
     userId,
     date
   ) {
     return await db.query(
-      "INSERT INTO items (name, amount, cashflow, item_group, date, users_id) VALUES (?, ?, ?, ?, ?, ?)",
-      [name, amount, cashflow, groupName, date, userId]
+      "INSERT INTO items (name, amount, cashflow, transaction_group_id, date, users_id) VALUES (?, ?, ?, ?, ?, ?)",
+      [name, amount, cashflow, group_id, date, userId]
     );
   },
   deleteItem: async function (db, itemId) {

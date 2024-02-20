@@ -24,24 +24,45 @@ module.exports = {
   postItem: async function (req, res) {
     const name = req.body.name;
     const amount = req.body.amount;
-    const groupName = req.body.group;
+    let groupName = req.body.group;
     const cashflow = req.body.cashflow;
     const date = req.body.date;
     const userId = req.body.userId;
-    try {
-      const result = await Items.postItem(
-        req.db,
-        name,
-        amount,
-        groupName,
-        cashflow,
-        userId,
-        date
-      );
-      res.status(200).json({ status: "Success!" });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: "Invalid name or amount." });
+    let group_id;
+    // If groupName is "ungrouped" - assign item a "null" group.
+    if (groupName.toLowerCase() === "ungrouped") {
+      group_id = null;
+    } else {
+      try {
+        const existingGroup = await Groups.getGroup(req.db, userId, groupName);
+        if (existingGroup.length < 1) {
+          // If group doesn't exist, create it and use its group_id for the item
+          await Groups.postGroup(req.db, userId, groupName);
+          const newGroup = await Groups.getGroup(req.db, userId, groupName);
+          group_id = newGroup[0].group_id;
+        } else {
+          // If group does exist, use its id for the item
+          group_id = existingGroup[0].group_id;
+        }
+        try {
+          const result = await Items.postItem(
+            req.db,
+            name,
+            amount,
+            group_id,
+            cashflow,
+            userId,
+            date
+          );
+          res.status(200).json({ status: "Success!" });
+        } catch (err) {
+          console.log(err);
+          res.status(500).json({ error: "Invalid name or amount." });
+        }
+      } catch (err) {
+        console.log("nope");
+        res.status(500).json({ error: "Server error." });
+      }
     }
   },
   getAllItemsByCashflowAndDate: async function (req, res) {
@@ -92,5 +113,4 @@ module.exports = {
       res.status(500).json({ error: "Server Error" });
     }
   },
-  
 };
