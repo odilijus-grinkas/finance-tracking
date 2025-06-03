@@ -1,4 +1,5 @@
 # finance-tracking
+![svelnieji biciuliai](https://github.com/user-attachments/assets/b2ce492d-f2ea-4847-9d61-dce4c1a0a675)
 
 ## Basic Start Instructions
 1. Install & start Docker
