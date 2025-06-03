@@ -18,8 +18,3 @@
   - USER = "root";
   - PASSWORD = "root";
   - DATABASE = "finance";
-
-todo:
-- Balance display
-- Delete group button
-- Item page - add to form ability to take additionalInput which is passed formData
