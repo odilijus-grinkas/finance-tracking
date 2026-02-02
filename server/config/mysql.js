@@ -14,7 +14,6 @@ if (!HOST){
   DB = "finance";
 };
 
-console.log(HOST)
 // Database connection
 const db = mysql.createPool({
   connectionLimit: 50,

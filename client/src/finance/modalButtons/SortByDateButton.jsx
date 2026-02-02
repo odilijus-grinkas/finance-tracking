@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 export default function SortByDateButton({ userId, flowParam }) {
   const navigate = useNavigate();
   async function submitFunction(formData) {
-    // If from date higher than To date, shows issue.
     navigate(`/cash/${flowParam}/${userId}/${formData.from}/${formData.to}`);
     return {ok:true}
   }

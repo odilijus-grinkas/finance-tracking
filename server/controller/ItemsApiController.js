@@ -1,4 +1,5 @@
 const Items = require("../models/Items");
+const Groups = require("../models/Groups");
 
 module.exports = {
   getAllItemsByCashflow: async function (req, res) {
@@ -23,30 +24,46 @@ module.exports = {
   postItem: async function (req, res) {
     const name = req.body.name;
     const amount = req.body.amount;
-    const groupName = req.body.group;
+    let groupName = req.body.group;
     const cashflow = req.body.cashflow;
     const date = req.body.date;
     const userId = req.body.userId;
+    let group_id;
     try {
-      const result = await Items.postItem(
-        req.db,
-        name,
-        amount,
-        groupName,
-        cashflow,
-        userId,
-        date
-      );
-      // If error while trying to post, send error message
-      if (result instanceof Error) {
-        res.status(500).json({ error: "Invalid name or amount." });
-        // Otherwise send success message
+      // If groupName is "ungrouped" - assign item to "null" group.
+      if (groupName.toLowerCase() === "ungrouped") {
+        group_id = null;
       } else {
+        const existingGroup = await Groups.getGroup(req.db, userId, groupName);
+        if (existingGroup.length < 1) {
+          // If group doesn't exist, create it and use its group_id for the item
+          await Groups.postGroup(req.db, userId, groupName);
+          const newGroup = await Groups.getGroup(req.db, userId, groupName);
+          group_id = newGroup[0].group_id;
+        } else {
+          // If group does exist, use its id for the item
+          group_id = existingGroup[0].group_id;
+        }
+      }
+      // Posts the item
+      try {
+        const result = await Items.postItem(
+          req.db,
+          name,
+          amount,
+          group_id,
+          cashflow,
+          userId,
+          date
+        );
         res.status(200).json({ status: "Success!" });
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Invalid name or amount." });
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: "Failed to post item to database." });
+      res.status(500).json({ error: "Server error." });
     }
   },
   getAllItemsByCashflowAndDate: async function (req, res) {
@@ -56,19 +73,21 @@ module.exports = {
     const to = req.params.to;
     try {
       const result = await Items.getByDate(req.db, id, from, to, cashflow);
-      if (result instanceof Error) {
-        res.status(403).json({ error: "Data incorrect." });
-      } else {
-        res.status(200).json(result);
-      }
+      res.status(200).json(result);
     } catch (err) {
+      console.log(err);
       res.status(500).json({ error: "Server Error" });
     }
   },
   deleteItem: async function (req, res) {
     const id = req.body.id;
-    await Items.deleteItem(req.db, id);
-    res.status(200).json({ status: "OK" });
+    try {
+      await Items.deleteItem(req.db, id);
+      res.status(200).json({ status: "OK" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Server Error" });
+    }
   },
   updateItem: async function (req, res) {
     const id = req.body.id;
@@ -79,17 +98,16 @@ module.exports = {
       await Items.updateItem(req.db, name, amount, date, id);
       res.status(200).json({ status: "OK" });
     } catch (err) {
+      console.log(err);
       res.status(500).json({ error: "Server Error" });
     }
   },
   deleteGroup: async function (req, res) {
     const groupName = req.body.groupName;
-    const cashflow = req.body.cashflow;
     const userId = req.body.userId;
     try {
-      items = await Items.updateGroups(req.db, userId, groupName, cashflow);
-      res.status(200).json({status: "OK"})
-
+      items = await Groups.deleteGroup(req.db, userId, groupName);
+      res.status(200).json({ status: "OK" });
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Server Error" });
